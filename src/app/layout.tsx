@@ -122,7 +122,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es-CL" className={`${roboto.variable}`}>
+    <html lang="es-CL" className={`${roboto.variable} scroll-smooth`}>
       <head>
         <script
           type="application/ld+json"
