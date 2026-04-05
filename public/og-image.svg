@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630">
+  <rect width="1200" height="630" fill="#000000"/>
+  <rect x="40" y="40" width="1120" height="550" rx="20" fill="#111111" stroke="#FFC805" stroke-width="2"/>
+  <text x="600" y="280" font-family="Roboto, sans-serif" font-size="72" font-weight="700" fill="#FFC805" text-anchor="middle">ScanDrive</text>
+  <text x="600" y="360" font-family="Roboto, sans-serif" font-size="28" fill="#FFFFFF" text-anchor="middle">Escáner Automotriz a Domicilio en Santiago</text>
+  <text x="600" y="410" font-family="Roboto, sans-serif" font-size="20" fill="#AAAAAA" text-anchor="middle">Diagnóstico Profesional | Revisión Pre-Compra | Región Metropolitana</text>
+</svg>
