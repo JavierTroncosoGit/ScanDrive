@@ -1,7 +1,12 @@
+"use client";
+
+import { useState } from "react";
 import Image from "next/image";
 import WhatsAppWidget from "@/components/WhatsAppWidget";
 
 export default function Home() {
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+
   const checkIcon = (
     <svg className="h-5 w-5 flex-shrink-0 text-brand-yellow" viewBox="0 0 20 20" fill="currentColor">
       <path fillRule="evenodd" d="M16.704 4.153a.75.75 0 01.143 1.052l-8 10.5a.75.75 0 01-1.127.075l-4.5-4.5a.75.75 0 011.06-1.06l3.894 3.893 7.48-9.817a.75.75 0 011.05-.143z" clipRule="evenodd" />
@@ -17,7 +22,7 @@ export default function Home() {
       <header id="site-header" className="sticky top-0 z-40 w-full bg-brand-black shadow-md">
         <nav aria-label="Navegación principal" className="mx-auto flex h-20 max-w-6xl items-center justify-between px-6">
           <a href="https://scandrive.cl" aria-label="ScanDrive - Inicio" className="flex items-center">
-            <svg className="h-[40px] w-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 63.77"><rect width="63.77" height="63.77" rx="4.27" ry="4.27" /><rect width="281.3" height="63.77" x="68.7" fill="#fdc606" rx="4.27" ry="4.27" /><path fill="#fff" d="M51.66 21.92V8.36l-27.04.13s-12.5 1.42-12.5 12.48c0 8.43 5.34 11.89 7.87 13.05-7.61.28-7.87 6.63-7.87 6.63v13.56l27.04-.13s12.5-1.42 12.5-12.48c0-8.43-5.34-11.89-7.87-13.05 7.61-.28 7.87-6.63 7.87-6.63M29.33 47.04V34h-7.69l12.79-18.48v13.04h7.69z" /><path d="M101.89 53.21c-5.72 0-10.14-1.29-13.24-3.87-3.11-2.58-4.66-6.24-4.66-10.99h9.88c.08 2.05.83 3.66 2.26 4.81s3.38 1.73 5.86 1.73c2.19 0 3.95-.43 5.28-1.28s2-1.98 2-3.38q0-1.815-1.74-2.97c-1.16-.77-3.04-1.42-5.63-1.96l-4.41-.89c-8.45-1.73-12.67-5.77-12.67-12.12 0-2.65.71-4.98 2.12-6.98 1.41-2.01 3.38-3.57 5.92-4.69 2.53-1.12 5.48-1.68 8.84-1.68 5.14 0 9.2 1.24 12.18 3.73s4.53 5.93 4.66 10.32h-9.59c-.15-1.77-.86-3.16-2.13-4.19s-2.93-1.54-4.98-1.54-3.56.42-4.79 1.27c-1.24.84-1.86 1.94-1.86 3.28 0 1.17.54 2.11 1.63 2.82s2.86 1.31 5.31 1.81l3.77.75c4.76.94 8.22 2.4 10.38 4.36 2.16 1.97 3.24 4.61 3.24 7.93 0 4.32-1.55 7.69-4.66 10.11q-4.665 3.63-12.96 3.63Zm33.82 0c-3.15 0-5.9-.67-8.25-2a14.1 14.1 0 0 1-5.5-5.57c-1.31-2.38-1.97-5.15-1.97-8.32s.66-5.92 1.97-8.31 3.15-4.25 5.51-5.59c2.36-1.33 5.11-2 8.23-2 2.82 0 5.33.54 7.52 1.61s3.93 2.56 5.23 4.46 2.02 4.09 2.17 6.57h-9.56c-.15-1.44-.69-2.6-1.6-3.47s-2.1-1.31-3.56-1.31c-1.86 0-3.31.72-4.33 2.15-1.03 1.43-1.54 3.39-1.54 5.89s.52 4.46 1.55 5.89c1.04 1.43 2.48 2.15 4.32 2.15q2.19 0 3.51-1.32c1.32-1.32 1.42-2.06 1.61-3.54h9.59c-.08 2.48-.75 4.67-2.03 6.58s-3.02 3.41-5.24 4.51c-2.22 1.09-4.77 1.64-7.64 1.64Zm25.93-.18c-3.05 0-5.55-.74-7.5-2.23s-2.92-3.75-2.92-6.78c0-2.28.53-4.09 1.6-5.41s2.49-2.3 4.28-2.94 3.76-1.04 5.93-1.21q4.095-.345 5.76-.84c1.11-.33 1.67-.95 1.67-1.87v-.14c0-.9-.38-1.64-1.14-2.2-.76-.57-1.79-.85-3.1-.85-1.38 0-2.48.31-3.3.92s-1.27 1.44-1.37 2.48h-9.21c.21-3.3 1.53-5.88 3.96-7.73s5.85-2.78 10.26-2.78 7.8.93 10.16 2.78 3.54 4.46 3.54 7.82v20.47h-9.67v-4.26h-.11c-.9 1.63-2.06 2.84-3.48 3.61s-3.21 1.17-5.36 1.17Zm3.03-6.47c1.65 0 3.04-.46 4.18-1.37 1.13-.91 1.7-2.12 1.7-3.61v-2.76q-.78.375-2.16.66c-1.38.285-2 .39-3.22.6-1.32.21-2.41.6-3.27 1.15-.85.56-1.28 1.33-1.28 2.33 0 .94.37 1.67 1.12 2.2s1.73.79 2.94.79Zm28.09-10.57v16.53h-9.91V22.11h9.79v4.92c1.02-1.73 2.31-3.09 3.89-4.09q2.355-1.5 5.79-1.5c3.3 0 5.87 1.06 7.7 3.17s2.75 5.04 2.75 8.78v19.12h-9.91V35.46c0-1.8-.43-3.18-1.3-4.13-.86-.95-2.08-1.43-3.66-1.43s-2.8.49-3.74 1.48q-1.41 1.485-1.41 4.59Zm37.8 16.53h-13.88V9.61h14.31c4.2 0 7.83.86 10.87 2.59s5.38 4.19 7.01 7.39 2.45 7 2.45 11.42-.82 8.26-2.46 11.47-4.01 5.69-7.11 7.43q-4.65 2.61-11.19 2.61m-7.48-5.56h7.08q7.515 0 11.13-4.23c2.41-2.82 3.61-6.73 3.61-11.72s-1.19-8.85-3.57-11.65c-2.38-2.79-5.96-4.19-10.74-4.19h-7.52v31.79Zm31.05 5.56V22.11h5.82v4.92h.12c.56-1.67 1.43-2.97 2.63-3.9s2.77-1.4 4.71-1.4c.46 0 .88.02 1.27.06s.7.07.95.09v5.67c-.23-.06-.64-.12-1.24-.19-.59-.07-1.25-.1-1.96-.1-1.71 0-3.17.6-4.39 1.79s-1.83 3.02-1.83 5.5v17.97zm20.21-35.65c-1.07 0-1.98-.36-2.72-1.08q-1.11-1.08-1.11-2.64c0-1.56.37-1.94 1.11-2.66s1.65-1.08 2.72-1.08 1.99.36 2.74 1.08 1.12 1.61 1.12 2.66-.37 1.91-1.12 2.64-1.66 1.08-2.74 1.08m-3.03 35.65V22.11h6.08v30.41zm18.82 0-11.58-30.41h6.51l6.05 16.67c.42 1.19.83 2.38 1.21 3.57s.77 2.37 1.15 3.54c.38-1.17.77-2.35 1.15-3.54s.78-2.38 1.18-3.57l5.96-16.67h6.42l-11.6 30.41zm31.09.69c-3.01 0-5.6-.68-7.76-2.04s-3.82-3.24-4.98-5.63q-1.74-3.585-1.74-8.16c0-4.575.61-5.83 1.81-8.23 1.21-2.4 2.88-4.29 5.01-5.66s4.58-2.06 7.34-2.06 5.38.67 7.5 2.02c2.12 1.34 3.77 3.21 4.94 5.6s1.76 5.15 1.76 8.28v1.64h-22.37c.11 2.75.91 4.96 2.38 6.65s3.54 2.53 6.2 2.53q3 0 4.92-1.35c1.29-.9 2.14-2.07 2.56-3.51h5.85c-.36 1.96-1.18 3.69-2.43 5.18s-2.83 2.66-4.72 3.5-3.98 1.25-6.26 1.25Zm-8.44-18.86h16.38c-.25-2.42-1.1-4.33-2.56-5.74s-3.34-2.12-5.64-2.12-4.18.7-5.63 2.12-2.3 3.33-2.55 5.74" /></svg>
+            <svg className="h-[32px] w-auto" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 350 63.77"><rect width="63.77" height="63.77" rx="4.27" ry="4.27" /><rect width="281.3" height="63.77" x="68.7" fill="#fdc606" rx="4.27" ry="4.27" /><path fill="#fff" d="M51.66 21.92V8.36l-27.04.13s-12.5 1.42-12.5 12.48c0 8.43 5.34 11.89 7.87 13.05-7.61.28-7.87 6.63-7.87 6.63v13.56l27.04-.13s12.5-1.42 12.5-12.48c0-8.43-5.34-11.89-7.87-13.05 7.61-.28 7.87-6.63 7.87-6.63M29.33 47.04V34h-7.69l12.79-18.48v13.04h7.69z" /><path d="M101.89 53.21c-5.72 0-10.14-1.29-13.24-3.87-3.11-2.58-4.66-6.24-4.66-10.99h9.88c.08 2.05.83 3.66 2.26 4.81s3.38 1.73 5.86 1.73c2.19 0 3.95-.43 5.28-1.28s2-1.98 2-3.38q0-1.815-1.74-2.97c-1.16-.77-3.04-1.42-5.63-1.96l-4.41-.89c-8.45-1.73-12.67-5.77-12.67-12.12 0-2.65.71-4.98 2.12-6.98 1.41-2.01 3.38-3.57 5.92-4.69 2.53-1.12 5.48-1.68 8.84-1.68 5.14 0 9.2 1.24 12.18 3.73s4.53 5.93 4.66 10.32h-9.59c-.15-1.77-.86-3.16-2.13-4.19s-2.93-1.54-4.98-1.54-3.56.42-4.79 1.27c-1.24.84-1.86 1.94-1.86 3.28 0 1.17.54 2.11 1.63 2.82s2.86 1.31 5.31 1.81l3.77.75c4.76.94 8.22 2.4 10.38 4.36 2.16 1.97 3.24 4.61 3.24 7.93 0 4.32-1.55 7.69-4.66 10.11q-4.665 3.63-12.96 3.63Zm33.82 0c-3.15 0-5.9-.67-8.25-2a14.1 14.1 0 0 1-5.5-5.57c-1.31-2.38-1.97-5.15-1.97-8.32s.66-5.92 1.97-8.31 3.15-4.25 5.51-5.59c2.36-1.33 5.11-2 8.23-2 2.82 0 5.33.54 7.52 1.61s3.93 2.56 5.23 4.46 2.02 4.09 2.17 6.57h-9.56c-.15-1.44-.69-2.6-1.6-3.47s-2.1-1.31-3.56-1.31c-1.86 0-3.31.72-4.33 2.15-1.03 1.43-1.54 3.39-1.54 5.89s.52 4.46 1.55 5.89c1.04 1.43 2.48 2.15 4.32 2.15q2.19 0 3.51-1.32c1.32-1.32 1.42-2.06 1.61-3.54h9.59c-.08 2.48-.75 4.67-2.03 6.58s-3.02 3.41-5.24 4.51c-2.22 1.09-4.77 1.64-7.64 1.64Zm25.93-.18c-3.05 0-5.55-.74-7.5-2.23s-2.92-3.75-2.92-6.78c0-2.28.53-4.09 1.6-5.41s2.49-2.3 4.28-2.94 3.76-1.04 5.93-1.21q4.095-.345 5.76-.84c1.11-.33 1.67-.95 1.67-1.87v-.14c0-.9-.38-1.64-1.14-2.2-.76-.57-1.79-.85-3.1-.85-1.38 0-2.48.31-3.3.92s-1.27 1.44-1.37 2.48h-9.21c.21-3.3 1.53-5.88 3.96-7.73s5.85-2.78 10.26-2.78 7.8.93 10.16 2.78 3.54 4.46 3.54 7.82v20.47h-9.67v-4.26h-.11c-.9 1.63-2.06 2.84-3.48 3.61s-3.21 1.17-5.36 1.17Zm3.03-6.47c1.65 0 3.04-.46 4.18-1.37 1.13-.91 1.7-2.12 1.7-3.61v-2.76q-.78.375-2.16.66c-1.38.285-2 .39-3.22.6-1.32.21-2.41.6-3.27 1.15-.85.56-1.28 1.33-1.28 2.33 0 .94.37 1.67 1.12 2.2s1.73.79 2.94.79Zm28.09-10.57v16.53h-9.91V22.11h9.79v4.92c1.02-1.73 2.31-3.09 3.89-4.09q2.355-1.5 5.79-1.5c3.3 0 5.87 1.06 7.7 3.17s2.75 5.04 2.75 8.78v19.12h-9.91V35.46c0-1.8-.43-3.18-1.3-4.13-.86-.95-2.08-1.43-3.66-1.43s-2.8.49-3.74 1.48q-1.41 1.485-1.41 4.59Zm37.8 16.53h-13.88V9.61h14.31c4.2 0 7.83.86 10.87 2.59s5.38 4.19 7.01 7.39 2.45 7 2.45 11.42-.82 8.26-2.46 11.47-4.01 5.69-7.11 7.43q-4.65 2.61-11.19 2.61m-7.48-5.56h7.08q7.515 0 11.13-4.23c2.41-2.82 3.61-6.73 3.61-11.72s-1.19-8.85-3.57-11.65c-2.38-2.79-5.96-4.19-10.74-4.19h-7.52v31.79Zm31.05 5.56V22.11h5.82v4.92h.12c.56-1.67 1.43-2.97 2.63-3.9s2.77-1.4 4.71-1.4c.46 0 .88.02 1.27.06s.7.07.95.09v5.67c-.23-.06-.64-.12-1.24-.19-.59-.07-1.25-.1-1.96-.1-1.71 0-3.17.6-4.39 1.79s-1.83 3.02-1.83 5.5v17.97zm20.21-35.65c-1.07 0-1.98-.36-2.72-1.08q-1.11-1.08-1.11-2.64c0-1.56.37-1.94 1.11-2.66s1.65-1.08 2.72-1.08 1.99.36 2.74 1.08 1.12 1.61 1.12 2.66-.37 1.91-1.12 2.64-1.66 1.08-2.74 1.08m-3.03 35.65V22.11h6.08v30.41zm18.82 0-11.58-30.41h6.51l6.05 16.67c.42 1.19.83 2.38 1.21 3.57s.77 2.37 1.15 3.54c.38-1.17.77-2.35 1.15-3.54s.78-2.38 1.18-3.57l5.96-16.67h6.42l-11.6 30.41zm31.09.69c-3.01 0-5.6-.68-7.76-2.04s-3.82-3.24-4.98-5.63q-1.74-3.585-1.74-8.16c0-4.575.61-5.83 1.81-8.23 1.21-2.4 2.88-4.29 5.01-5.66s4.58-2.06 7.34-2.06 5.38.67 7.5 2.02c2.12 1.34 3.77 3.21 4.94 5.6s1.76 5.15 1.76 8.28v1.64h-22.37c.11 2.75.91 4.96 2.38 6.65s3.54 2.53 6.2 2.53q3 0 4.92-1.35c1.29-.9 2.14-2.07 2.56-3.51h5.85c-.36 1.96-1.18 3.69-2.43 5.18s-2.83 2.66-4.72 3.5-3.98 1.25-6.26 1.25Zm-8.44-18.86h16.38c-.25-2.42-1.1-4.33-2.56-5.74s-3.34-2.12-5.64-2.12-4.18.7-5.63 2.12-2.3 3.33-2.55 5.74" /></svg>
           </a>
           <ul className="hidden space-x-8 text-sm font-medium text-brand-white md:flex">
             <li><a href="#servicios" className="transition-colors hover:text-brand-yellow">Servicios</a></li>
@@ -310,101 +315,57 @@ export default function Home() {
               </h2>
             </div>
             <div className="space-y-4">
-              <details className="group rounded-2xl border-l-[6px] border-transparent border border-zinc-200 bg-brand-white p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 [&_summary::-webkit-details-marker]:hidden open:border-l-brand-yellow open:shadow-lg">
-                <summary className="flex cursor-pointer items-center justify-between gap-1.5 font-bold text-brand-black focus:outline-none">
-                  <h3 className="text-lg">¿Qué es un diagnóstico automotriz electrónico avanzado?</h3>
-                  <span className="shrink-0 rounded-full bg-zinc-100 p-2 text-brand-black transition duration-300 group-open:-rotate-45 group-open:bg-brand-yellow group-open:text-brand-black">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                </summary>
-                <div className="mt-4 pt-4 border-t border-zinc-100 text-zinc-600 leading-relaxed animate-in slide-in-from-top-4 fade-in duration-500">
-                  <p>
-                    A diferencia de un escáner común que sólo "lee" el código, el diagnóstico avanzado implica pruebas de los actuadores del auto en vivo, verificar el estado del cableado asociado y utilizar verdadero conocimiento técnico para apuntar a la causa exacta de la falla, <strong className="text-brand-black">cero adivinanzas</strong>.
-                  </p>
-                </div>
-              </details>
-
-              <details className="group rounded-2xl border-l-[6px] border-transparent border border-zinc-200 bg-brand-white p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 [&_summary::-webkit-details-marker]:hidden open:border-l-brand-yellow open:shadow-lg">
-                <summary className="flex cursor-pointer items-center justify-between gap-1.5 font-bold text-brand-black focus:outline-none">
-                  <h3 className="text-lg">¿Cubren toda la Región Metropolitana?</h3>
-                  <span className="shrink-0 rounded-full bg-zinc-100 p-2 text-brand-black transition duration-300 group-open:-rotate-45 group-open:bg-brand-yellow group-open:text-brand-black">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                </summary>
-                <div className="mt-4 pt-4 border-t border-zinc-100 text-zinc-600 leading-relaxed animate-in slide-in-from-top-4 fade-in duration-500">
-                  <p>
-                    Sí, prestamos nuestros servicios de escáner a domicilio a lo largo de toda la Provincia de Santiago y otras comunas aledañas de la Región Metropolitana. Consúltanos por WhatsApp tu dirección exacta y agendamos de inmediato.
-                  </p>
-                </div>
-              </details>
-
-              <details className="group rounded-2xl border-l-[6px] border-transparent border border-zinc-200 bg-brand-white p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 [&_summary::-webkit-details-marker]:hidden open:border-l-brand-yellow open:shadow-lg">
-                <summary className="flex cursor-pointer items-center justify-between gap-1.5 font-bold text-brand-black focus:outline-none">
-                  <h3 className="text-lg">¿El servicio es a domicilio o debo llevar el auto a un taller?</h3>
-                  <span className="shrink-0 rounded-full bg-zinc-100 p-2 text-brand-black transition duration-300 group-open:-rotate-45 group-open:bg-brand-yellow group-open:text-brand-black">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                </summary>
-                <div className="mt-4 pt-4 border-t border-zinc-100 text-zinc-600 leading-relaxed animate-in slide-in-from-top-4 fade-in duration-500">
-                  <p>
-                    Nuestro servicio es <strong>100% móvil</strong>. Vamos al lugar donde se encuentre tu vehículo, ya sea tu domicilio, lugar de trabajo o donde el auto esté aparcado, para que no tengas que moverlo si presenta fallas de seguridad.
-                  </p>
-                </div>
-              </details>
-
-              <details className="group rounded-2xl border-l-[6px] border-transparent border border-zinc-200 bg-brand-white p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 [&_summary::-webkit-details-marker]:hidden open:border-l-brand-yellow open:shadow-lg">
-                <summary className="flex cursor-pointer items-center justify-between gap-1.5 font-bold text-brand-black focus:outline-none">
-                  <h3 className="text-lg">¿Cuánto tiempo demora cada servicio?</h3>
-                  <span className="shrink-0 rounded-full bg-zinc-100 p-2 text-brand-black transition duration-300 group-open:-rotate-45 group-open:bg-brand-yellow group-open:text-brand-black">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                </summary>
-                <div className="mt-4 pt-4 border-t border-zinc-100 text-zinc-600 leading-relaxed animate-in slide-in-from-top-4 fade-in duration-500">
-                  <p>
-                    El <strong>Escáner Básico</strong> toma aproximadamente 20 a 30 minutos. El <strong>Diagnóstico Profesional</strong> y la <strong>Inspección Pre-Compra</strong> son procesos más exhaustivos y suelen demorar entre 1 y 2 horas, dependiendo de las condiciones y anomalías del vehículo.
-                  </p>
-                </div>
-              </details>
-
-              <details className="group rounded-2xl border-l-[6px] border-transparent border border-zinc-200 bg-brand-white p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 [&_summary::-webkit-details-marker]:hidden open:border-l-brand-yellow open:shadow-lg">
-                <summary className="flex cursor-pointer items-center justify-between gap-1.5 font-bold text-brand-black focus:outline-none">
-                  <h3 className="text-lg">¿Atienden todas las marcas y modelos de vehículos?</h3>
-                  <span className="shrink-0 rounded-full bg-zinc-100 p-2 text-brand-black transition duration-300 group-open:-rotate-45 group-open:bg-brand-yellow group-open:text-brand-black">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                </summary>
-                <div className="mt-4 pt-4 border-t border-zinc-100 text-zinc-600 leading-relaxed animate-in slide-in-from-top-4 fade-in duration-500">
-                  <p>
-                    Sí, contamos con escáneres multimarca actualizados de última generación que nos permiten acceder a los módulos de la inmensa mayoría de los vehículos asiáticos, americanos y europeos del mercado.
-                  </p>
-                </div>
-              </details>
-
-              <details className="group rounded-2xl border-l-[6px] border-transparent border border-zinc-200 bg-brand-white p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 [&_summary::-webkit-details-marker]:hidden open:border-l-brand-yellow open:shadow-lg">
-                <summary className="flex cursor-pointer items-center justify-between gap-1.5 font-bold text-brand-black focus:outline-none">
-                  <h3 className="text-lg">¿Qué formas de pago aceptan?</h3>
-                  <span className="shrink-0 rounded-full bg-zinc-100 p-2 text-brand-black transition duration-300 group-open:-rotate-45 group-open:bg-brand-yellow group-open:text-brand-black">
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
-                    </svg>
-                  </span>
-                </summary>
-                <div className="mt-4 pt-4 border-t border-zinc-100 text-zinc-600 leading-relaxed animate-in slide-in-from-top-4 fade-in duration-500">
-                  <p>
-                    Puedes pagar al momento de finalizar el diagnóstico y recibir los resultados, ya sea mediante transferencia bancaria, pago en efectivo o link de pago con tarjetas de crédito/débito.
-                  </p>
-                </div>
-              </details>
+              {[
+                {
+                  q: "¿Qué es un diagnóstico automotriz electrónico avanzado?",
+                  a: "A diferencia de un escáner común que sólo \"lee\" el código, el diagnóstico avanzado implica pruebas de los actuadores del auto en vivo, verificar el estado del cableado asociado y utilizar verdadero conocimiento técnico para apuntar a la causa exacta de la falla, <strong class='text-brand-black'>cero adivinanzas</strong>."
+                },
+                {
+                  q: "¿Cubren toda la Región Metropolitana?",
+                  a: "Sí, prestamos nuestros servicios de escáner a domicilio a lo largo de toda la Provincia de Santiago y otras comunas aledañas de la Región Metropolitana. Consúltanos por WhatsApp tu dirección exacta y agendamos de inmediato."
+                },
+                {
+                  q: "¿El servicio es a domicilio o debo llevar el auto a un taller?",
+                  a: "Nuestro servicio es <strong>100% móvil</strong>. Vamos al lugar donde se encuentre tu vehículo, ya sea tu domicilio, lugar de trabajo o donde el auto esté aparcado, para que no tengas que moverlo si presenta fallas de seguridad."
+                },
+                {
+                  q: "¿Cuánto tiempo demora cada servicio?",
+                  a: "El <strong>Escáner Básico</strong> toma aproximadamente 20 a 30 minutos. El <strong>Diagnóstico Profesional</strong> y la <strong>Inspección Pre-Compra</strong> son procesos más exhaustivos y suelen demorar entre 1 y 2 horas, dependiendo de las condiciones y anomalías del vehículo."
+                },
+                {
+                  q: "¿Atienden todas las marcas y modelos de vehículos?",
+                  a: "Sí, contamos con escáneres multimarca actualizados de última generación que nos permiten acceder a los módulos de la inmensa mayoría de los vehículos asiáticos, americanos y europeos del mercado."
+                },
+                {
+                  q: "¿Qué formas de pago aceptan?",
+                  a: "Puedes pagar al momento de finalizar el diagnóstico y recibir los resultados, ya sea mediante transferencia bancaria, pago en efectivo o link de pago con tarjetas de crédito/débito."
+                }
+              ].map((item, i) => (
+                <details
+                  key={i}
+                  open={openFaq === i}
+                  className="group rounded-2xl border-l-[6px] border-transparent border border-zinc-200 bg-brand-white p-6 shadow-sm transition-all duration-300 hover:shadow-md hover:-translate-y-1 [&_summary::-webkit-details-marker]:hidden open:border-l-brand-yellow open:shadow-lg"
+                >
+                  <summary
+                    className="flex cursor-pointer items-center justify-between gap-1.5 font-bold text-brand-black focus:outline-none"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setOpenFaq(openFaq === i ? null : i);
+                    }}
+                  >
+                    <h3 className="text-lg">{item.q}</h3>
+                    <span className="shrink-0 rounded-full bg-zinc-100 p-2 text-brand-black transition duration-300 group-open:-rotate-45 group-open:bg-brand-yellow group-open:text-brand-black">
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fillRule="evenodd" d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z" clipRule="evenodd" />
+                      </svg>
+                    </span>
+                  </summary>
+                  <div
+                    className="mt-4 pt-4 border-t border-zinc-100 text-zinc-600 leading-relaxed animate-in slide-in-from-top-4 fade-in duration-500"
+                    dangerouslySetInnerHTML={{ __html: item.a }}
+                  />
+                </details>
+              ))}
             </div>
           </div>
         </section>

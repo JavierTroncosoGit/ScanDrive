@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Roboto } from "next/font/google";
+import SmoothScroll from "@/components/SmoothScroll";
 import "./globals.css";
 
 const roboto = Roboto({
@@ -122,7 +123,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="es-CL" className={`${roboto.variable} scroll-smooth`}>
+    <html lang="es-CL" className={`${roboto.variable}`}>
       <head>
         <script
           type="application/ld+json"
@@ -130,7 +131,9 @@ export default function RootLayout({
         />
       </head>
       <body>
-        {children}
+        <SmoothScroll>
+          {children}
+        </SmoothScroll>
       </body>
     </html>
   );
