@@ -5,6 +5,14 @@ import { useState, useEffect } from "react";
 export default function WhatsAppWidget() {
   const [isVisible, setIsVisible] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const serviciosOpciones = [
+    { value: "Escáner Básico", label: "Escáner Básico ($25.000)" },
+    { value: "Diagnóstico Profesional", label: "Diagnóstico Profesional ($45.000)" },
+    { value: "Inspección Pre-Compra", label: "Inspección Pre-Compra ($45.000)" },
+    { value: "Consulta Técnica", label: "Solo Consulta Técnica (Gratis)" },
+  ];
 
   // Estado del formulario
   const [formData, setFormData] = useState({
@@ -17,7 +25,7 @@ export default function WhatsAppWidget() {
   useEffect(() => {
     const handleScroll = () => {
       // Toggle visibility based on 50% of the viewport height (approx 1/2 of Hero)
-      if (window.scrollY > window.innerHeight / 2) {
+      if (window.scrollY > window.innerHeight / 8) {
         setIsVisible(true);
       } else {
         setIsVisible(false);
@@ -117,19 +125,52 @@ Por favor confírmenme disponibilidad para una visita. ¡Gracias!`;
                 className="w-full rounded-md border border-zinc-300 bg-zinc-50 px-3 py-2 text-sm focus:border-brand-yellow focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-yellow/50 transition-colors placeholder:text-zinc-400"
               />
             </div>
-            <div>
-              <select
-                required
-                name="servicio"
-                value={formData.servicio}
-                onChange={handleChange}
-                className="w-full rounded-md border border-zinc-300 bg-zinc-50 px-3 py-2 text-sm focus:border-brand-yellow focus:bg-white focus:outline-none focus:ring-2 focus:ring-brand-yellow/50 transition-colors"
+            <div className="relative">
+              <button
+                type="button"
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className={`w-full flex items-center justify-between rounded-md border text-sm transition-colors px-3 py-2 text-left ${
+                  isDropdownOpen 
+                    ? "border-brand-yellow bg-white ring-2 ring-brand-yellow/50" 
+                    : "border-zinc-300 bg-zinc-50 hover:bg-zinc-100"
+                }`}
               >
-                <option value="Escáner Básico">Escáner Básico ($25.000)</option>
-                <option value="Diagnóstico Profesional">Diagnóstico Profesional ($45.000)</option>
-                <option value="Inspección Pre-Compra">Inspección Pre-Compra ($45.000)</option>
-                <option value="Consulta Técnica">Solo Consulta Técnica (Gratis)</option>
-              </select>
+                <span className={formData.servicio ? "text-brand-black" : "text-zinc-500"}>
+                  {serviciosOpciones.find((opt) => opt.value === formData.servicio)?.label || "Selecciona un servicio"}
+                </span>
+                <svg
+                  className={`w-4 h-4 text-zinc-500 transition-transform duration-200 ${
+                    isDropdownOpen ? "rotate-180" : ""
+                  }`}
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7"></path>
+                </svg>
+              </button>
+
+              {isDropdownOpen && (
+                <div className="absolute z-10 w-full mt-1 bg-white border border-zinc-200 rounded-md shadow-xl py-1 animate-in fade-in slide-in-from-top-2 duration-200 overflow-hidden">
+                  {serviciosOpciones.map((opcion) => (
+                    <button
+                      key={opcion.value}
+                      type="button"
+                      onClick={() => {
+                        setFormData({ ...formData, servicio: opcion.value });
+                        setIsDropdownOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
+                        formData.servicio === opcion.value
+                          ? "bg-brand-yellow/10 text-brand-black font-semibold"
+                          : "text-zinc-700 hover:bg-zinc-50 hover:text-brand-black"
+                      }`}
+                    >
+                      {opcion.label}
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
             <div>
               <textarea

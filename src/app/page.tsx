@@ -26,7 +26,7 @@ export default function Home() {
           </a>
           <ul className="hidden space-x-8 text-sm font-medium text-brand-white md:flex">
             <li><a href="#servicios" className="transition-colors hover:text-brand-yellow">Servicios</a></li>
-            <li><a href="#por-que-nosotros" className="transition-colors hover:text-brand-yellow">Por Qué Nosotros</a></li>
+            <li><a href="#por-que-nosotros" className="transition-colors hover:text-brand-yellow">¿Por qué nosotros?</a></li>
             <li><a href="#como-funciona" className="transition-colors hover:text-brand-yellow">Cómo Funciona</a></li>
             <li><a href="#resenas" className="transition-colors hover:text-brand-yellow">Reseñas</a></li>
             <li><a href="#faq" className="transition-colors hover:text-brand-yellow">FAQ</a></li>
